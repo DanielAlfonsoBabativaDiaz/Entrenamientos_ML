@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Casos de Uso ML</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+    <nav class="navbar">
+        <div class="logo">Daniel Babativa, Duvan Londoño</div>
+    </nav>
+    <h1>Casos de Uso de Machine Learning</h1>
+    <button class="toggle-btn">☰</button>
+    <div class="sidebar">
+        <ul class="menu">
+            <li><a href="index">Inicio</a></li>
+            <li><a href="casos_de_uso_ML">Casos de Uso ML</a></li>
+        </ul>
+    </div>
+    <script>
+        const toggleBtn = document.querySelector('.toggle-btn');
+        const sidebar = document.querySelector('.sidebar');
+
+    toggleBtn.addEventListener('click', () => {
+        sidebar.classList.toggle('active');
+    });
+    </script>
+</body>
+</html>
