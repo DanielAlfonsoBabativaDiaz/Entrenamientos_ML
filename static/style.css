@@ -12,6 +12,23 @@ h2 {
     text-align: center;
 }
 
+h3 {
+    color: #2c3e50;
+    margin-top: 20px;
+}
+
+.table-bordered th, .table-bordered td {
+    text-align: center;
+    vertical-align: middle;
+}
+
+img {
+    border: 1px solid #ccc;
+    padding: 10px;
+    background-color: #f9f9f9;
+}
+
+
 form {
     background-color: white;
     padding: 30px;
