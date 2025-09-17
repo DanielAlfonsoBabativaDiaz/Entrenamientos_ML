@@ -15,13 +15,20 @@
     </nav>
     <h1> Bienvenidos a {{name}}!</h1>
     <button class="toggle-btn">☰</button>
-    <div class="sidebar">
-        <ul class="menu">
-            <li><a href="index">Inicio</a></li>
-            <li><a href="casos_de_uso_ML">Casos de Uso ML</a></li>
-            <li><a href="prediccion">Predicción</a></li>
-        </ul>
-    </div>
+<div class="sidebar">
+    <ul class="menu">
+        <li><a href="index">Inicio</a></li>
+        <li><a href="casos_de_uso_ML">Casos de Uso ML</a></li>
+        <li><a href="prediccion">Predicción</a></li>
+        <li class="submenu">
+            <a href="#">Regresión Logística</a>
+            <ul>
+                <li><a href="conceptos_basicos">Conceptos Básicos</a></li>
+                <li><a href="Cursos">Ejercicio Practico</a></li>
+            </ul>
+        </li>
+    </ul>
+</div>
     <script>
         const toggleBtn = document.querySelector('.toggle-btn');
         const sidebar = document.querySelector('.sidebar');
