@@ -33,7 +33,7 @@ end
 # Unset irrelevant variables.
 deactivate nondestructive
 
-set -gx VIRTUAL_ENV 'c:\Users\Lenovo\Documents\SEMESTRE#7\Machine learning\Entrenamientos_ML\.venv'
+set -gx VIRTUAL_ENV 'C:\Users\duvan\OneDrive\Documentos\universidad de cundinamarca\septimo semestre\machine learning\Entrenamientos_ML\.venv'
 
 set -gx _OLD_VIRTUAL_PATH $PATH
 set -gx PATH "$VIRTUAL_ENV/"Scripts $PATH
