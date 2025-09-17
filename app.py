@@ -48,7 +48,7 @@ def calculateGrade():
 with open('./PKL/modelo_aprobacion.pkl', 'rb') as f:
     model = pickle.load(f)
 
-with open('./PKL/scaler_aprobacion.pkl', 'rb') as f:
+with open('./PKL/scaler_aprobacion.pkl', 'rb') as f: 
     scaler = pickle.load(f)
 
 @app.route("/Cursos", methods=["GET", "POST"])
