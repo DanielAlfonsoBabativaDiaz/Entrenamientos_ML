@@ -77,6 +77,36 @@ def prediccionCurso():
                            accuracy=accuracy,
                            report_html=report_html,
                            conf_matrix_img=conf_matrix_img)
+    
+@app.route('/KNN', methods=['GET', 'POST'])
+def recomendar():
+    if request.method == 'GET':
+        return render_template("KNN.html", categoria=None)
+
+    try:
+        data = request.form
+        edad = int(data['edad'])
+        genero = 1 if data['genero'] == 'F' else 0
+        historial = int(data['historial'])
+        tiempo = float(data['tiempo'])
+        categorias = int(data['categorias'])
+
+        with open("PKL/scaler_knn.pkl", "rb") as f:
+            scaler = pickle.load(f)
+        with open("PKL/knn_model.pkl", "rb") as f:
+            knn = pickle.load(f)
+        with open("PKL/encoder_knn.pkl", "rb") as f:
+            encoder = pickle.load(f)
+
+        entrada = scaler.transform([[edad, genero, historial, tiempo, categorias]])
+        pred = knn.predict(entrada)
+        categoria = encoder.inverse_transform([pred[0]])[0]
+
+        return render_template("KNN.html", categoria=categoria)
+
+    except Exception as e:
+        return render_template("KNN.html", categoria=None, error=str(e))
+
 
 if __name__== '__main__':
     app.run(debug=True)
