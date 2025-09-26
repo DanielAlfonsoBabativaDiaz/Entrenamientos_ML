@@ -56,6 +56,7 @@ y = df['CategoriaObjetivo']
 x_train, x_test, y_train, y_test = train_test_split(X, y, test_size=0.2, random_state=42)
 scaler = StandardScaler()
 x_train_scaled = scaler.fit_transform(x_train)
+x_test_scaled = scaler.transform(x_test)
 
 model = KNeighborsClassifier(n_neighbors=5)
 model.fit(x_train_scaled, y_train)
@@ -68,4 +69,32 @@ with open("PKL/scaler_knn.pkl", "wb") as f:
 with open("PKL/encoder_knn.pkl", "wb") as f:
     pickle.dump(le_target, f)
 
-print("✅ Modelo y scaler guardados")
+print("✅ Modelo y scaler guardados")
+
+# Evaluación
+y_pred = model.predict(x_test_scaled)
+accuracy = accuracy_score(y_test, y_pred)
+print(f"✅ Accuracy del modelo: {accuracy:.2f}")
+
+report = classification_report(y_test, y_pred, output_dict=True)
+report_df = pd.DataFrame(report).transpose()
+report_html = report_df.round(2).to_html(classes="table table-bordered table-striped", border=0)
+
+def generar_matriz_confusion_base64(y_true, y_pred):
+    cm = confusion_matrix(y_true, y_pred)
+    plt.figure(figsize=(6, 4))
+    sns.heatmap(cm, annot=True, fmt='d', cmap='Blues')
+    plt.title("Matriz de Confusión")
+    plt.xlabel("Predicción")
+    plt.ylabel("Real")
+
+    buffer = io.BytesIO()
+    plt.savefig(buffer, format='png')
+    buffer.seek(0)
+    img_base64 = base64.b64encode(buffer.read()).decode('utf-8')
+    plt.close()
+    return img_base64
+
+conf_matrix_img = generar_matriz_confusion_base64(y_test, y_pred)
+print("✅ Imagen de matriz de confusión generada en base64")
+

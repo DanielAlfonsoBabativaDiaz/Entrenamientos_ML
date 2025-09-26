@@ -18,16 +18,22 @@
   <button class="toggle-btn">☰</button>
   <div class="sidebar">
     <ul class="menu">
-      <li><a href="index">Inicio</a></li>
+      <li><a href="/">Inicio</a></li>
       <li><a href="casos_de_uso_ML">Casos de Uso ML</a></li>
-      <li><a href="KNN">Recomendación K-NN</a></li>
       <li class="submenu">
-        <a href="#">Modelos Supervisados</a>
+        <a href="#">Regresión logística</a>
         <ul>
-          <li><a href="regresion_logistica">Regresión Logística</a></li>
+          <li><a href="conceptos_basicos">Conceptos Básicos</a></li>
+                <li><a href="Cursos">Ejercicio Practico</a></li>
         </ul>
       </li>
+      <li class="submenu">
+        <a href="#">Recomendación</a>
+        <ul>
+          <li><a href="Recursos">Recomendación K-NN</a></li>
+      <li><a href="Mapa">Mapa Conceptual</a></li>
     </ul>
+  </li>
   </div>
 
   <script>
@@ -39,7 +45,7 @@
   </script>
 
   <h1>Recomendación Personalizada de Productos</h1>
-  <form method="post" action="/recomendar">
+  <form method="post" action="/Recursos">
   <label for="edad">Edad</label>
   <input type="number" name="edad" required>
 
@@ -63,4 +69,27 @@
 
 {% if categoria is not none %}
   <h2>Producto recomendado: {{ categoria }}</h2>
-{% endif %}
+{% endif %}
+  <hr>
+<h2 class="text-center mt-5">Producto recomendado: {{ categoria }}</h2>
+
+<div class="container mt-5">
+  <h2 class="text-center" style="font-size: 2rem;">Métricas de Evaluación del Modelo</h2>
+
+  <p class="text-center" style="font-size: 1.5rem;"><strong>Exactitud:</strong> {{ accuracy }}</p>
+
+  <h3 class="text-center">Reporte de Clasificación</h3>
+  <div class="table-responsive mx-auto" style="max-width: 700px;">
+    {{ report_html|safe }}
+  </div>
+
+  <h3 class="text-center mt-4">Matriz de Confusión</h3>
+  <div class="text-center">
+    <img src="data:image/png;base64,{{ conf_matrix_img }}" alt="Matriz de Confusión" class="img-fluid rounded shadow" style="max-width: 400px;">
+  </div>
+</div>
+</body>
+</html>
+
+
+

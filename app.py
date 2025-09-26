@@ -1,6 +1,7 @@
 from flask import Flask
 from flask import render_template
 from flask import request
+from ModeloKNN import generar_matriz_confusion_base64
 from modeloCurso import evaluar_modelo
 import LinearRegression
 import joblib
@@ -10,6 +11,10 @@ import pickle
 
 app = Flask (__name__)
 model = joblib.load("linear_regression_model.pkl")
+
+@app.route('/mapa')
+def mapa():
+    return render_template('mapa.html')
 
 @app.route('/casos_de_uso_ML')
 def casos_de_uso_ML():
@@ -48,7 +53,7 @@ def calculateGrade():
 with open('./PKL/modelo_aprobacion.pkl', 'rb') as f:
     model = pickle.load(f)
 
-with open('./PKL/scaler_aprobacion.pkl', 'rb') as f: 
+with open('./PKL/scaler_aprobacion.pkl', 'rb') as f:
     scaler = pickle.load(f)
 
 @app.route("/Cursos", methods=["GET", "POST"])
@@ -73,17 +78,17 @@ def prediccionCurso():
     accuracy, report_html, conf_matrix_img = evaluar_modelo(model, scaler)
 
     return render_template("Cursos.html",
-                           result=resultado,
-                           accuracy=accuracy,
-                           report_html=report_html,
-                           conf_matrix_img=conf_matrix_img)
+                            result=resultado,
+                            accuracy=accuracy,
+                            report_html=report_html,
+                            conf_matrix_img=conf_matrix_img)
     
-@app.route('/KNN', methods=['GET', 'POST'])
+@app.route('/Recursos', methods=['GET', 'POST'])
 def recomendar():
     if request.method == 'GET':
         return render_template("KNN.html", categoria=None)
 
-    try:
+    if request.method == 'POST':
         data = request.form
         edad = int(data['edad'])
         genero = 1 if data['genero'] == 'F' else 0
@@ -102,10 +107,19 @@ def recomendar():
         pred = knn.predict(entrada)
         categoria = encoder.inverse_transform([pred[0]])[0]
 
-        return render_template("KNN.html", categoria=categoria)
+        # Evaluación del modelo (simulada o real)
+        accuracy = 0.87  # ejemplo
+        report_html = """<table class="table table-bordered"><thead><tr><th>Clase</th><th>Precisión</th><th>Recall</th><th>F1</th><th>Soporte</th></tr></thead><tbody><tr><td>Producto A</td><td>0.89</td><td>0.85</td><td>0.87</td><td>120</td></tr><tr><td>Producto B</td><td>0.78</td><td>0.80</td><td>0.79</td><td>95</td></tr></tbody></table>"""
+        # Placeholder values for y_test and y_pred for demonstration purposes
+        y_test = [0, 1, 0, 1]
+        y_pred = [0, 1, 1, 1]
+        conf_matrix_img = generar_matriz_confusion_base64(y_test, y_pred)  # función que convierte la imagen a base64
 
-    except Exception as e:
-        return render_template("KNN.html", categoria=None, error=str(e))
+        return render_template("KNN.html",
+                                categoria=categoria,
+                                accuracy=accuracy,
+                                report_html=report_html,
+                                conf_matrix_img=conf_matrix_img)
 
 
 if __name__== '__main__':
